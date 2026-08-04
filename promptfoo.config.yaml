@@ -1,0 +1,43 @@
+# promptfoo.config.yaml
+description: 'Cross-Agent Validation Matrix: Agent Config LLM 1 vs Agent Config LLM 2'
+
+# We pass the input directly to the agent framework without wrapping it in raw system tags
+prompts:
+  - "{{user_query}}"
+
+# POINT TO YOUR PYTHON MODULE PATH
+# We duplicate the file target twice to build two separate runtime instances of your agent executor loop.
+providers:
+  - id: "file://agent_provider.py"
+    label: "Agent_Using_Llama_70B"
+    config:
+      pythonExecutable: "C:/Users/Admin/PycharmProjects/agent-testing/venv/Scripts/python.exe"
+      model_name: "llama-3.3-70b-versatile"
+  - id: "file://agent_provider.py"
+    label: "Agent_Using_Llama_8B"
+    config:
+      pythonExecutable: "C:/Users/Admin/PycharmProjects/agent-testing/venv/Scripts/python.exe"
+      model_name: "llama-3.1-8b-instant"
+
+# Your 10 exact QA payment agent target testing queries
+tests:
+  - vars:
+      user_query: "Fetch all payments with a 'Repair' status, analyze their failure error codes, and give me distinct repair recommendations for each."
+  - vars:
+      user_query: "Identify any payments stuck in repair because of code ERR_4041 and list the recommended validation checks."
+  - vars:
+      user_query: "Find liquidity error code ERR_2019 items and suggest accounting workflows to clear them."
+  - vars:
+      user_query: "Are there any transactions currently failing due to an unmappable status code?"
+  - vars:
+      user_query: "Provide a high-priority action checklist for all transactions flagged with payment failures."
+  - vars:
+      user_query: "Summarize total monetary values currently stuck in a non-completed status."
+  - vars:
+      user_query: "Draft an operational exception message for a clearing account liquidity deficit."
+  - vars:
+      user_query: "Verify if TXN_1003 requires any manual intervention steps."
+  - vars:
+      user_query: "Check if the database has any missing values in the critical error description fields."
+  - vars:
+      user_query: "Generate a structured markdown summary report detailing all active payment anomalies."
